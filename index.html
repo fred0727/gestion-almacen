@@ -3,9 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestión de Almacén</title>
+    <meta name="description" content="Sistema moderno de gestión de almacén e inventario. Gestiona productos, stock, categorías y genera reportes en Excel.">
+    <meta name="keywords" content="gestión almacén, inventario, stock, productos, reportes, Excel">
+    <meta name="author" content="Sistema de Gestión de Almacén">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Sistema de Gestión de Almacén">
+    <meta property="og:description" content="Sistema moderno de gestión de almacén e inventario con funcionalidades avanzadas.">
+    <meta property="og:url" content="https://gestion-almacen.netlify.app">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Sistema de Gestión de Almacén">
+    <meta property="twitter:description" content="Sistema moderno de gestión de almacén e inventario con funcionalidades avanzadas.">
+    
+    <title>Gestión de Almacén - Sistema de Inventario</title>
+    
+    <!-- Preload de recursos críticos -->
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
+    <link rel="preload" href="data.json" as="fetch" crossorigin>
+    
+    <!-- Stylesheets -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+    
+    <!-- PWA Support (para futuro) -->
+    <meta name="theme-color" content="#2563EB">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Gestión Almacén">
 </head>
 <body class="bg-gray-100 min-h-screen">
     <!-- Header -->

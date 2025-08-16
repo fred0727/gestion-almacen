@@ -1,0 +1,12 @@
+# Redirects para Netlify
+
+# Redirección de www a no-www (opcional)
+https://www.tu-dominio.netlify.app/* https://tu-dominio.netlify.app/:splat 301!
+
+# Redirecciones para compatibilidad
+/home /index.html 301
+/dashboard /index.html 301
+/inventory /index.html 301
+
+# Forzar HTTPS (si tienes dominio personalizado)
+http://tu-dominio.com/* https://tu-dominio.com/:splat 301!
