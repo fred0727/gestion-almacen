@@ -1,0 +1,317 @@
+/* Estilos personalizados adicionales para la aplicación */
+/* TailwindCSS ya proporciona la mayoría de estilos necesarios */
+
+/* Animaciones personalizadas */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Clases de animación */
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Mejoras para la accesibilidad */
+.focus-visible {
+    outline: 2px solid #3B82F6;
+    outline-offset: 2px;
+}
+
+/* Estilos para modo oscuro (opcional) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #1F2937;
+        --bg-secondary: #374151;
+        --text-primary: #F9FAFB;
+        --text-secondary: #D1D5DB;
+    }
+}
+
+/* Estilos para impresión */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    .print-table {
+        font-size: 12px;
+    }
+    
+    .print-table th,
+    .print-table td {
+        padding: 8px 4px;
+        border: 1px solid #000;
+    }
+}
+
+/* Scrollbar personalizado */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
+}
+
+/* Estilos para estados de hover mejorados */
+.hover-scale:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Indicadores de estado */
+.status-indicator {
+    position: relative;
+    display: inline-block;
+}
+
+.status-indicator::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10B981; /* Verde para stock normal */
+}
+
+.status-indicator.low-stock::before {
+    background-color: #EF4444; /* Rojo para stock bajo */
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Mejoras para dispositivos móviles */
+@media (max-width: 768px) {
+    .mobile-hide {
+        display: none;
+    }
+    
+    .mobile-stack {
+        flex-direction: column;
+    }
+    
+    .mobile-text-sm {
+        font-size: 0.875rem;
+    }
+}
+
+/* Estilos para tooltips */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Estilos para formularios mejorados */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-input:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    border-color: #3B82F6;
+}
+
+.form-error {
+    border-color: #EF4444;
+    background-color: #FEF2F2;
+}
+
+.form-error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Estilos para notificaciones */
+.notification {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    max-width: 400px;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.notification.show {
+    transform: translateX(0);
+}
+
+.notification-success {
+    background-color: #10B981;
+    color: white;
+}
+
+.notification-error {
+    background-color: #EF4444;
+    color: white;
+}
+
+.notification-warning {
+    background-color: #F59E0B;
+    color: white;
+}
+
+/* Estilos para loading states */
+.loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Estilos para empty states */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: #6B7280;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* Mejoras para la tabla responsive */
+@media (max-width: 640px) {
+    .responsive-table {
+        font-size: 0.75rem;
+    }
+    
+    .responsive-table th,
+    .responsive-table td {
+        padding: 0.5rem 0.25rem;
+    }
+    
+    .responsive-table .mobile-hide {
+        display: none;
+    }
+}
+
+/* Estilos para acciones rápidas */
+.quick-actions {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 100;
+}
+
+.quick-action-btn {
+    display: block;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #3B82F6;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.quick-action-btn:hover {
+    background-color: #2563EB;
+    transform: scale(1.1);
+}
+
+/* Utilidades adicionales */
+.text-overflow-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.max-width-content {
+    max-width: max-content;
+}
+
+.min-height-screen {
+    min-height: 100vh;
+}
+
+/* Estilos para modo de alto contraste */
+@media (prefers-contrast: high) {
+    .high-contrast {
+        filter: contrast(150%);
+    }
+    
+    .border-high-contrast {
+        border-width: 2px;
+        border-color: #000;
+    }
+}

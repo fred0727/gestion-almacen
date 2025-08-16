@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Almacén</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold text-center">
+                <i class="fas fa-warehouse mr-2"></i>
+                Sistema de Gestión de Almacén
+            </h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Controles de búsqueda y filtros -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Búsqueda -->
+                <div>
+                    <label for="searchInput" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-search mr-1"></i>
+                        Buscar Producto
+                    </label>
+                    <input 
+                        type="text" 
+                        id="searchInput" 
+                        placeholder="Buscar por nombre o ID..."
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                </div>
+
+                <!-- Filtro por categoría -->
+                <div>
+                    <label for="categoryFilter" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-filter mr-1"></i>
+                        Filtrar por Categoría
+                    </label>
+                    <select 
+                        id="categoryFilter"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="">Todas las categorías</option>
+                    </select>
+                </div>
+
+                <!-- Ordenar -->
+                <div>
+                    <label for="sortSelect" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-sort mr-1"></i>
+                        Ordenar por
+                    </label>
+                    <select 
+                        id="sortSelect"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="id">ID</option>
+                        <option value="nombre">Nombre</option>
+                        <option value="categoria">Categoría</option>
+                        <option value="stock">Stock</option>
+                        <option value="precio">Precio</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Botones de acciones -->
+            <div class="flex flex-wrap gap-4 mt-4">
+                <button 
+                    onclick="abrirModalCrearProducto()"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-200"
+                >
+                    <i class="fas fa-plus mr-2"></i>
+                    Crear Producto
+                </button>
+                
+                <button 
+                    onclick="generarReporteExcel()"
+                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-200"
+                >
+                    <i class="fas fa-file-excel mr-2"></i>
+                    Exportar a Excel
+                </button>
+
+                <button 
+                    onclick="reiniciarFiltros()"
+                    class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200"
+                >
+                    <i class="fas fa-refresh mr-2"></i>
+                    Limpiar Filtros
+                </button>
+            </div>
+        </div>
+
+        <!-- Estadísticas rápidas -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                        <i class="fas fa-boxes text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Total Productos</p>
+                        <p id="totalProducts" class="text-2xl font-bold text-gray-900">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-green-100 text-green-600">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Stock Total</p>
+                        <p id="totalStock" class="text-2xl font-bold text-gray-900">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                        <i class="fas fa-exclamation-triangle text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Stock Bajo</p>
+                        <p id="lowStock" class="text-2xl font-bold text-gray-900">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                        <i class="fas fa-dollar-sign text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-600">Valor Total</p>
+                        <p id="totalValue" class="text-2xl font-bold text-gray-900">$0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de productos -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <h2 class="text-xl font-semibold text-gray-900">
+                    <i class="fas fa-list mr-2"></i>
+                    Inventario de Productos
+                </h2>
+            </div>
+
+            <!-- Tabla responsive -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100" onclick="sortTable('id')">
+                                ID <i class="fas fa-sort ml-1"></i>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100" onclick="sortTable('nombre')">
+                                Nombre <i class="fas fa-sort ml-1"></i>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100" onclick="sortTable('categoria')">
+                                Categoría <i class="fas fa-sort ml-1"></i>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100" onclick="sortTable('stock')">
+                                Stock <i class="fas fa-sort ml-1"></i>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100" onclick="sortTable('precio')">
+                                Precio <i class="fas fa-sort ml-1"></i>
+                            </th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Acciones
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="productTableBody" class="bg-white divide-y divide-gray-200">
+                        <!-- Los productos se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mensaje cuando no hay resultados -->
+            <div id="noResults" class="hidden p-8 text-center">
+                <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
+                <p class="text-gray-600">No se encontraron productos que coincidan con los criterios de búsqueda.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para crear producto -->
+    <div id="createProductModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-lg mx-4 max-h-screen overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-semibold text-gray-900">
+                    <i class="fas fa-plus-circle mr-2 text-green-600"></i>
+                    Crear Nuevo Producto
+                </h3>
+                <button onclick="cerrarModalCrearProducto()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="createProductForm" class="space-y-4">
+                <div>
+                    <label for="newProductName" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-tag mr-1"></i>
+                        Nombre del Producto *
+                    </label>
+                    <input 
+                        type="text" 
+                        id="newProductName" 
+                        required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        placeholder="Ej: Laptop Dell Inspiron"
+                    >
+                </div>
+
+                <div>
+                    <label for="newProductCategory" class="block text-sm font-medium text-gray-700 mb-2">
+                        <i class="fas fa-folder mr-1"></i>
+                        Categoría *
+                    </label>
+                    <div class="relative">
+                        <select 
+                            id="newProductCategory"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        >
+                            <option value="">Seleccionar categoría</option>
+                        </select>
+                        <div class="mt-2">
+                            <input 
+                                type="text" 
+                                id="newCategoryInput" 
+                                placeholder="O crear nueva categoría..."
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 text-sm"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="newProductStock" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-boxes mr-1"></i>
+                            Stock Inicial *
+                        </label>
+                        <input 
+                            type="number" 
+                            id="newProductStock" 
+                            min="0" 
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            placeholder="0"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="newProductPrice" class="block text-sm font-medium text-gray-700 mb-2">
+                            <i class="fas fa-dollar-sign mr-1"></i>
+                            Precio *
+                        </label>
+                        <input 
+                            type="number" 
+                            id="newProductPrice" 
+                            min="0" 
+                            step="0.01" 
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                            placeholder="0.00"
+                        >
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-4 rounded-md">
+                    <h4 class="text-sm font-medium text-gray-700 mb-2">Resumen del Producto</h4>
+                    <div class="text-sm text-gray-600 space-y-1">
+                        <div>Nombre: <span id="previewName" class="font-medium">-</span></div>
+                        <div>Categoría: <span id="previewCategory" class="font-medium">-</span></div>
+                        <div>Stock: <span id="previewStock" class="font-medium">-</span></div>
+                        <div>Precio: <span id="previewPrice" class="font-medium">-</span></div>
+                        <div class="pt-2 border-t">
+                            <strong>Valor Total: $<span id="previewTotalValue" class="text-green-600">0.00</span></strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex space-x-3 pt-4">
+                    <button type="submit" class="flex-1 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <i class="fas fa-save mr-2"></i>
+                        Crear Producto
+                    </button>
+                    <button type="button" onclick="cerrarModalCrearProducto()" class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                        <i class="fas fa-times mr-2"></i>
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para gestionar stock -->
+    <div id="stockModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Gestionar Stock</h3>
+                <button onclick="closeStockModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-600">Producto: <span id="modalProductName" class="font-medium"></span></p>
+                <p class="text-sm text-gray-600">Stock actual: <span id="modalCurrentStock" class="font-medium"></span></p>
+            </div>
+
+            <form id="stockForm" class="space-y-4">
+                <div>
+                    <label for="stockAction" class="block text-sm font-medium text-gray-700 mb-2">Acción</label>
+                    <select id="stockAction" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="add">Aumentar stock</option>
+                        <option value="subtract">Disminuir stock</option>
+                        <option value="set">Establecer stock</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="stockAmount" class="block text-sm font-medium text-gray-700 mb-2">Cantidad</label>
+                    <input 
+                        type="number" 
+                        id="stockAmount" 
+                        min="0" 
+                        required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Ingrese la cantidad"
+                    >
+                </div>
+
+                <div class="flex space-x-3 pt-4">
+                    <button type="submit" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar
+                    </button>
+                    <button type="button" onclick="closeStockModal()" class="flex-1 bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                        <i class="fas fa-times mr-2"></i>
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="loadingIndicator" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl p-6 text-center">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p class="text-gray-600">Cargando productos...</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

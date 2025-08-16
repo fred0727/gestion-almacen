@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "nombre": "Laptop Dell XPS 13",
+    "categoria": "Electrónicos",
+    "stock": 15,
+    "precio": 1299.99
+  },
+  {
+    "id": 2,
+    "nombre": "Mouse Logitech MX Master",
+    "categoria": "Electrónicos",
+    "stock": 3,
+    "precio": 89.99
+  },
+  {
+    "id": 3,
+    "nombre": "Teclado Mecánico Corsair",
+    "categoria": "Electrónicos",
+    "stock": 8,
+    "precio": 159.99
+  },
+  {
+    "id": 4,
+    "nombre": "Monitor Samsung 27\"",
+    "categoria": "Electrónicos",
+    "stock": 2,
+    "precio": 329.99
+  },
+  {
+    "id": 5,
+    "nombre": "Silla Ergonómica Herman Miller",
+    "categoria": "Muebles",
+    "stock": 12,
+    "precio": 899.99
+  },
+  {
+    "id": 6,
+    "nombre": "Escritorio de Madera",
+    "categoria": "Muebles",
+    "stock": 6,
+    "precio": 449.99
+  },
+  {
+    "id": 7,
+    "nombre": "Lámpara LED de Escritorio",
+    "categoria": "Iluminación",
+    "stock": 25,
+    "precio": 79.99
+  },
+  {
+    "id": 8,
+    "nombre": "Impresora HP LaserJet",
+    "categoria": "Electrónicos",
+    "stock": 1,
+    "precio": 199.99
+  },
+  {
+    "id": 9,
+    "nombre": "Auriculares Sony WH-1000XM4",
+    "categoria": "Electrónicos",
+    "stock": 18,
+    "precio": 349.99
+  },
+  {
+    "id": 10,
+    "nombre": "Cámara Canon EOS R5",
+    "categoria": "Electrónicos",
+    "stock": 4,
+    "precio": 3899.99
+  },
+  {
+    "id": 11,
+    "nombre": "Tablet iPad Pro",
+    "categoria": "Electrónicos",
+    "stock": 9,
+    "precio": 1099.99
+  },
+  {
+    "id": 12,
+    "nombre": "Smartphone iPhone 15",
+    "categoria": "Electrónicos",
+    "stock": 22,
+    "precio": 999.99
+  },
+  {
+    "id": 13,
+    "nombre": "Estantería Metálica",
+    "categoria": "Muebles",
+    "stock": 7,
+    "precio": 189.99
+  },
+  {
+    "id": 14,
+    "nombre": "Cuaderno de Notas",
+    "categoria": "Papelería",
+    "stock": 45,
+    "precio": 12.99
+  },
+  {
+    "id": 15,
+    "nombre": "Bolígrafos Pack 12 unidades",
+    "categoria": "Papelería",
+    "stock": 28,
+    "precio": 8.99
+  },
+  {
+    "id": 16,
+    "nombre": "Marcadores Fluorescentes",
+    "categoria": "Papelería",
+    "stock": 33,
+    "precio": 15.99
+  },
+  {
+    "id": 17,
+    "nombre": "Archivador de Documentos",
+    "categoria": "Papelería",
+    "stock": 16,
+    "precio": 24.99
+  },
+  {
+    "id": 18,
+    "nombre": "Calculadora Científica",
+    "categoria": "Electrónicos",
+    "stock": 11,
+    "precio": 45.99
+  },
+  {
+    "id": 19,
+    "nombre": "Cafetera Espresso",
+    "categoria": "Electrodomésticos",
+    "stock": 5,
+    "precio": 299.99
+  },
+  {
+    "id": 20,
+    "nombre": "Microondas Samsung",
+    "categoria": "Electrodomésticos",
+    "stock": 3,
+    "precio": 159.99
+  }
+]
